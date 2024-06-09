@@ -1,21 +1,27 @@
+name: 🚀 Deploy WordPress Site on Push
+
 on: 
   push:
     branches:
       - main
-name: 🚀 Deploy website on push
 
 jobs:
   web-deploy:
-    name: 🎉 Deploy website
+    name: 🎉 Deploy WordPress Site
     runs-on: ubuntu-latest
+
     steps:
     # Checkout the repository
     - name: 🚚 Get latest code
       uses: actions/checkout@v4
-    # sync files via FTP
-    - name: 📂 Sync files via FTP
+
+    # Sync files via SFTP
+    - name: 📂 Sync files via SFTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USER }}
-        password: ${{ secrets.FTP_PASS }}
+        server: ${{ secrets.SFTP_SERVER }}
+        username: ${{ secrets.SFTP_USER }}
+        password: ${{ secrets.SFTP_PASS }}
+        protocol: sftp
+        local-dir: ./  # Directory nel repository GitHub da cui prendere i file
+        server-dir: /path/to/wordpress/  # Directory sul server SFTP dove caricare i file
